@@ -16,7 +16,7 @@ export default function Contact() {
     console.log("FORM SUBMITTED");
 
     try {
-      const res = await fetch("https://portfolio-backend-mg2q.onrender.com/api/contact", {
+      const res = await fetch("https://mern-portfolio-2-9h4l.onrender.com/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
