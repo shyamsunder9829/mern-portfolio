@@ -1,27 +1,29 @@
 import { useState } from "react";
 
-const Sidebar = ({ scrollTo }) => {
+export default function Sidebar({ scrollTo }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="md:hidden fixed top-0 left-0 z-50">
+    <div className="md:hidden fixed top-4 z-50">
       <button
         onClick={() => setOpen(!open)}
-        className="p-4 text-2xl"
+        className="text-2xl m-2"
       >
         ☰
       </button>
 
       {open && (
-        <div className="bg-black text-white w-60 h-screen p-6">
-          {["about", "skills", "education", "contact"].map(item => (
+        <div className="bg-black text-white w-60 h-screen p-6 mt-2">
+                <h1 className="font-bold pb-6 text-2xl text-purple-600">PORTFOLIO</h1>
+
+          {["about","skills","education","projects","contact"].map(item => (
             <p
               key={item}
               onClick={() => {
                 scrollTo(item);
                 setOpen(false);
               }}
-              className="mb-6 cursor-pointer"
+              className="mb-4"
             >
               {item.toUpperCase()}
             </p>
@@ -30,6 +32,4 @@ const Sidebar = ({ scrollTo }) => {
       )}
     </div>
   );
-};
-
-export default Sidebar;
+}

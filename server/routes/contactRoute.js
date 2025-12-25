@@ -3,26 +3,37 @@ import Contact from "../models/Contact.js";
 
 const router = express.Router();
 
+router.post("/contact", async (req, res) => {
+  await Contact.create(req.body);
+  res.status(201).json({ success: true });
+});
+
+
+
 router.post("/", async (req, res) => {
   try {
     const { name, email, message } = req.body;
 
     if (!name || !email || !message) {
-      return res.status(400).json({ message: "All fields required" });
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
     }
 
-    const newContact = new Contact({
-      name,
-      email,
-      message
+    const contact = await Contact.create({ name, email, message });
+
+    res.status(201).json({
+      success: true,
+      message: "Contact saved successfully",
+      data: contact,
     });
-
-    await newContact.save();
-
-    res.status(201).json({ message: "Message saved successfully" });
   } catch (error) {
-    console.error("Contact error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to save contact",
+    });
   }
 });
 

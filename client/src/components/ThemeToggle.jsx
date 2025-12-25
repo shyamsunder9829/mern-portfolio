@@ -1,28 +1,41 @@
 import { useEffect, useState } from "react";
-import { FaMoon, FaSun } from "react-icons/fa";
+ import { motion } from "framer-motion";
 
 const ThemeToggle = () => {
-  const [dark, setDark] = useState(
-    localStorage.getItem("theme") === "dark"
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") || "light"
   );
 
   useEffect(() => {
-    if (dark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+    const root = document.documentElement;
+
+    if (theme === "dark") {
+      root.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      root.classList.remove("dark");
     }
-  }, [dark]);
+
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   return (
-    <button
-      onClick={() => setDark(!dark)}
-      className="fixed bottom-6 right-6 z-50 bg-purple-600 text-white p-3 rounded-full shadow-lg hover:scale-110 transition"
+    <motion.button
+     initial={{ y: -10, opacity: 0 }}
+        animate={{ y: 10, opacity: 1 }}
+        transition={{ duration: 1 }}
+      onClick={() =>
+        setTheme(theme === "dark" ? "light" : "dark")
+      }
+      className="
+        fixed bottom-6 right-6 z-50
+        px-4 py-2 rounded-full
+        bg-black text-white
+        dark:bg-white dark:text-black
+        transition-all duration-300
+      "
     >
-      {dark ? <FaSun /> : <FaMoon />}
-    </button>
+      {theme === "dark" ? "☀ Light" : "🌙 Dark"}
+    </motion.button>
   );
 };
 

@@ -1,13 +1,11 @@
 import { useState } from "react";
 
-const Contact = () => {
+export default function Contact() {
   const [form, setForm] = useState({
     name: "",
     email: "",
     message: "",
   });
-
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -15,38 +13,22 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    console.log("FORM SUBMITTED");
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/contact`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form),
-        }
-      );
+      const res = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
       const data = await res.json();
+      alert(data.message);
 
-      if (res.ok) {
-        alert("Message sent successfully 🚀");
-
-        // ✅ CLEAR FORM
-        setForm({
-          name: "",
-          email: "",
-          message: "",
-        });
-      } else {
-        alert("Failed to send message ❌");
-      }
+      setForm({ name: "", email: "", message: "" });
     } catch (error) {
-      alert("Server error ❌");
-    } finally {
-      setLoading(false);
+      alert("Something went wrong");
+      console.error(error);
     }
   };
 
@@ -54,57 +36,45 @@ const Contact = () => {
     <section
       id="contact"
       className="min-h-screen flex items-center justify-center
-      bg-linear-to-r from-purple-600 to-pink-600 px-6"
+      bg-linear-to-r from-purple-500 to-pink-500 dark:from-slate-600 dark:via-slate-700 dark:to-slate-900"
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-md"
+        className="bg-white p-8 rounded-xl w-full max-w-md dark:text-black"
       >
-        <h2 className="text-3xl font-bold text-center text-purple-600 mb-6">
-          Contact Me
-        </h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Contact Me</h2>
 
         <input
-          type="text"
           name="name"
-          placeholder="Your Name"
           value={form.name}
           onChange={handleChange}
+          className="w-full p-3 mb-4 bg-gray-100"
+          placeholder="Name"
           required
-          className="w-full mb-4 p-3 rounded-lg bg-gray-100 dark:bg-gray-800 outline-none"
         />
 
         <input
-          type="email"
           name="email"
-          placeholder="Your Email"
           value={form.email}
           onChange={handleChange}
+          className="w-full p-3 mb-4 bg-gray-100"
+          placeholder="Email"
           required
-          className="w-full mb-4 p-3 rounded-lg bg-gray-100 dark:bg-gray-800 outline-none"
         />
 
         <textarea
           name="message"
-          placeholder="Your Message"
-          rows="4"
           value={form.message}
           onChange={handleChange}
+          className="w-full p-3 mb-4 bg-gray-100"
+          placeholder="Message"
           required
-          className="w-full mb-4 p-3 rounded-lg bg-gray-100 dark:bg-gray-800 outline-none"
         />
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-purple-600 text-white py-3 rounded-lg
-          hover:bg-pink-600 transition disabled:opacity-50"
-        >
-          {loading ? "Sending..." : "Send Message"}
+        <button type="submit" className="w-full bg-purple-600 text-white py-3 rounded">
+          Send
         </button>
       </form>
     </section>
   );
-};
-
-export default Contact;
+}
