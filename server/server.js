@@ -29,7 +29,7 @@ mongoose
   });
 
 /* ================= ROUTES ================= */
-app.use("/api", contactRoutes);
+app.use("/api/contact", contactRoutes);
 
 /* ================= HEALTH ================= */
 app.get("/", (req, res) => {
