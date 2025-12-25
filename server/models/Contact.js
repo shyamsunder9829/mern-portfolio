@@ -4,19 +4,16 @@ const contactSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
-      trim: true,
+      required: true
     },
     email: {
       type: String,
-      required: true,
-      trim: true,
+      required: true
     },
     message: {
       type: String,
-      required: true,
-      trim: true,
-    },
+      required: true
+    }
   },
   { timestamps: true }
 );
