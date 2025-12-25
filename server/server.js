@@ -16,7 +16,7 @@ app.use(cors(
 ));
 app.use(express.json());
 
-app.use("/api/contact", contactRoute);
+app.use("/api", contactRoute);
 
 mongoose
   .connect(process.env.MONGO_URI)
