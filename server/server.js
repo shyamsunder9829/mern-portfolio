@@ -7,8 +7,13 @@ import contactRoute from "./routes/contactRoute.js";
 dotenv.config();
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
+app.use(cors(
+  { origin: "*",
+    methods: ["GET", "POST"],
+   }
+));
 app.use(express.json());
 
 app.use("/api/contact", contactRoute);
